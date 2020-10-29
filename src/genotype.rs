@@ -1,7 +1,7 @@
 use crate::config::Config;
 use rand::Rng;
 use std::fmt;
-
+#[derive(Clone)]
 pub struct Genotype{
     pub sequence : Vec<u32>
 }
@@ -43,6 +43,14 @@ impl Genotype{
         let buf = self.sequence.iter().map(|i| i.to_string()).rev().collect::<String>();
         buf
     }
+
+    pub fn mutate(&mut self,mutrate: &f64) {
+        let mut rng = rand::thread_rng();
+        for idx in 0..self.sequence.len(){
+            let rn : f64 = rng.gen();
+            if rn < *mutrate { self.sequence[idx] = 1 - self.sequence[idx]; } 
+        }
+    } 
 }
 
 impl fmt::Debug for Genotype{

@@ -1,6 +1,7 @@
 use crate::config::Config;
 use crate::genotype::Genotype;
 use crate::environment::Environment;
+use crate::ga::ga_step;
 use std::fs::File;
 use std::io::Write;
 use std::error::Error;
@@ -29,17 +30,18 @@ impl World{
         Ok(World{pop_host:new_hpop,pop_para:new_ppop,env:new_env})
     }
 
-    pub fn start_run(&self, cfg: &Config) { // Main driver function
+    pub fn start_run(mut self, cfg: &Config) { // Main driver function
         
         for step in 0..(cfg.max_steps+1) {  
+            println!("Step : {} out of {}",step,cfg.max_steps);
             // First, get fitness of both host and parasite populations
             let (hfit,pfit) = self.get_hp_fitness(cfg);
 
             // Every timestep consists of two ga optimization steps
             // 1. Optimization of host population
-            // self.pop_host = ga_step(self.pop_host,hfit,cfg); TODO
+            self.pop_host = ga_step(self.pop_host,hfit,&cfg.mut_host); 
             // 2. Optimization of parasite population
-            // self.pop_para = ga_step(self.pop_para,pfit,cfg); TODO
+            self.pop_para = ga_step(self.pop_para,pfit,&cfg.mut_para); 
 
             if step%cfg.save_every==0{
                 self.save_state(&step);
@@ -90,6 +92,6 @@ impl World{
         let mut ppop_file = File::create(format!("results/ppop_{}.csv",step)).unwrap();
         ppop_file.write(b"genotype,ptype_id\n").unwrap();
         let pstring : String = self.pop_para.iter().map(|x| x.get_as_string()+&format!(",{}\n",self.env.g_to_ptype_id(x))).collect();
-        hpop_file.write(pstring.as_bytes()).unwrap();
+        ppop_file.write(pstring.as_bytes()).unwrap();
     }
 }

@@ -12,7 +12,7 @@ fn main() {
     //println!("Main configuration: {:}",cfg); //@DEBUG
     
     // Initialise the world (environment + host population + parasite population)
-    let mut world = World::init(&cfg)
+    let world = World::init(&cfg)
         .unwrap_or_else(|err|{
             println!("Unable to create world: {}",err);
             process::exit(1);

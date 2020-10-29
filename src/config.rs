@@ -32,7 +32,7 @@ impl Config {
             popsize_para: 100, //Size of parasite population
 
             gen_len_max: 5, //Maximum length of genotype (for both host and parasite)
-            init_len: 3, // Initial length of genotypes (0s in front)
+            init_len: 1, // Initial length of genotypes (0s in front)
 
             //Sequence replication cost, hosts (cost = srca*length + srcb)
             srca_host: 0.0, 
@@ -52,8 +52,8 @@ impl Config {
             mut_para: 0.002, // Mutation probability for parasites
 
             // Run time
-            max_steps: 100,
-            save_every: 10
+            max_steps: 1000,
+            save_every: 1000
         }
     }
 }
