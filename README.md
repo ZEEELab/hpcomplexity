@@ -1,6 +1,5 @@
 # hpcomplexity
-Author: Bhaskar Kumawat (kumawatb AT umich DOT edu)
 
-## TODO
-- Add genetic algorithm to perform optimization
+A simple program to simulate coevolution of host-parasite populations in different environments (i.e. chemistries with different genotype-phenotype partitioning).
+
 
