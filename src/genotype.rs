@@ -22,6 +22,15 @@ impl Genotype{
         Genotype{sequence:seq}
     }
 
+    pub fn new(gid: u64, cfg:&Config) -> Genotype {
+        const RADIX: u32 = 10;
+        let mut seq: Vec<u32> = format!("{:b}", gid).chars().map(|c| c.to_digit(RADIX).unwrap()).rev().collect();
+        for _ in 0..(cfg.gen_len_max-(seq.len() as u32)){
+            seq.push(0); // Add extra zeros
+        }
+        Genotype{sequence:seq}
+    }
+
     pub fn get_func_length(&self) -> u32 { // Returns the functional length of the genotype (sans ending zeroes)
         for idx in (0..self.sequence.len()).rev() {
             if self.sequence[idx]==1{

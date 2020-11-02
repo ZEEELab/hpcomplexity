@@ -17,7 +17,7 @@ impl World{
         let mut new_hpop = Vec::new();
         let mut new_ppop = Vec::new();
         
-        let new_env = Environment::init();
+        let new_env = Environment::init(); // This environment doesn't have a complexity table!
 
         for _ in 0..cfg.popsize_host{
             new_hpop.push(Genotype::new_rand(cfg));
@@ -31,7 +31,11 @@ impl World{
     }
 
     pub fn start_run(mut self, cfg: &Config) { // Main driver function
-        
+
+        self.env.gen_complexity_table(cfg); // Environment now has complexity table
+
+        println!("Starting run...");
+        // Do steps of the run
         for step in 0..(cfg.max_steps+1) {  
             println!("Step : {} out of {}",step,cfg.max_steps);
             // First, get fitness of both host and parasite populations
@@ -58,7 +62,7 @@ impl World{
         let mut pfit = Vec::new();
         
 
-        // OPTIMIZE THIS PART, DOING DOUBLE THE REQUIRED WORK
+        // OPTIMIZE THIS PART, DOING DOUBLE THE REQUIRED WORK!!!
 
         // For every host genotype, if matching parasite phenotype, decrease fitness
         for idxh in 0..hptypes.len(){

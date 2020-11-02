@@ -29,7 +29,7 @@ impl Config {
         Config{
             // ############ PARAMETERS ###########
             popsize_host: 100, //Size of host population
-            popsize_para: 100, //Size of parasite population
+            popsize_para: 10, //Size of parasite population
 
             gen_len_max: 5, //Maximum length of genotype (for both host and parasite)
             init_len: 1, // Initial length of genotypes (0s in front)
@@ -53,7 +53,7 @@ impl Config {
 
             // Run time
             max_steps: 1000,
-            save_every: 1000
+            save_every: 1
         }
     }
 }
