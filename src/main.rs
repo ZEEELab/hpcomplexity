@@ -8,7 +8,12 @@ fn main() {
     let start_time = Instant::now();
 
     // Initialise main configuration
-    let cfg = Config::init();
+    let cfgfilename = String::from("config.csv"); 
+    let cfg = Config::from_file(&cfgfilename)
+        .unwrap_or_else(|err|{
+            println!("Problem opening config file {} : {}",&cfgfilename,err);
+            process::exit(1);
+        });
     //println!("Main configuration: {:}",cfg); //@DEBUG
     
     // Initialise the world (environment + host population + parasite population)

@@ -1,5 +1,6 @@
 use std::fmt;
-
+use std::fs;
+use std::error::Error;
 pub struct Config {
     pub popsize_host : u32,
     pub popsize_para : u32, 
@@ -25,11 +26,13 @@ pub struct Config {
 }
 
 impl Config {
+
+    // Initialise a default config
     pub fn init() -> Config {
         Config{
             // ############ PARAMETERS ###########
             popsize_host: 100, //Size of host population
-            popsize_para: 10, //Size of parasite population
+            popsize_para: 100, //Size of parasite population
 
             gen_len_max: 5, //Maximum length of genotype (for both host and parasite)
             init_len: 1, // Initial length of genotypes (0s in front)
@@ -56,6 +59,41 @@ impl Config {
             save_every: 1
         }
     }
+
+    // Initialize config from file
+    pub fn from_file(cfgfilename: &String) -> Result<Config,Box<dyn Error>>{
+        
+        let cfg_content = fs::read_to_string(cfgfilename)?; // The ? here returns an error if file cannot be opened
+        
+        let mut config = Config::default();
+
+        for line in cfg_content.lines(){
+            let as_vec : Vec<&str> = line.split(",").collect();
+            
+            match &as_vec[0][..]{
+                "popsize_host"  => {config.popsize_host  = as_vec[1].parse::<u32>().unwrap()},
+                "popsize_para"  => {config.popsize_para  = as_vec[1].parse::<u32>().unwrap()},
+                "gen_len_max"   => {config.gen_len_max   = as_vec[1].parse::<u32>().unwrap()},
+                "init_len"      => {config.init_len      = as_vec[1].parse::<u32>().unwrap()},
+                "srca_host"     => {config.srca_host     = as_vec[1].parse::<f64>().unwrap()},
+                "srcb_host"     => {config.srcb_host     = as_vec[1].parse::<f64>().unwrap()},
+                "srca_para"     => {config.srca_para     = as_vec[1].parse::<f64>().unwrap()},
+                "srcb_para"     => {config.srcb_para     = as_vec[1].parse::<f64>().unwrap()},
+                "para_effect"   => {config.para_effect   = as_vec[1].parse::<f64>().unwrap()},
+                "para_self_fit" => {config.para_self_fit = as_vec[1].parse::<f64>().unwrap()},
+                "para_perm_fit" => {config.para_perm_fit = as_vec[1].parse::<f64>().unwrap()},
+                "mut_host"      => {config.mut_host      = as_vec[1].parse::<f64>().unwrap()},
+                "mut_para"      => {config.mut_para      = as_vec[1].parse::<f64>().unwrap()},
+                "max_steps"     => {config.max_steps     = as_vec[1].parse::<u32>().unwrap()},
+                "save_every"    => {config.save_every    = as_vec[1].parse::<u32>().unwrap()},    
+                _=>{},
+            }
+        }
+
+        Ok(config)
+    }
+
+
 }
 
 impl Default for Config{

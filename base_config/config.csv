@@ -1,0 +1,16 @@
+PARAM,VALUE
+popsize_host,100,"Size of host population
+popsize_para,10,"Size of parasite population"
+gen_len_max,5,"Maximum length of genotype (for both host and parasite)"
+init_len,1,"Initial length of genotypes (0s in front)"
+srca_host,0.0,"Sequence replication cost, hosts (cost = srca*length + srcb)"
+srcb_host,1.0,
+srca_para,0.0,"Sequence replication cost, parasites (cost = srca*length + srcb)"
+srcb_para,1.0,
+para_effect,0.8,"This fraction of host fitness goes to parasite if matching parasite present"
+para_self_fit,0.1,"If non zero, parasites can exist freely (relative magnitude wrt para_perm_fit important)"
+para_perm_fit,0.5,"Additional fitness advantage when a permissive host exists"
+mut_host,0.002,"Mutation probability for hosts"
+mut_para,0.002,"Mutation probability for parasites"
+max_steps,1000,"Number of steps"
+save_every,1,"Save population every"

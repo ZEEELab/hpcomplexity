@@ -5,6 +5,7 @@ use crate::ga::ga_step;
 use std::fs::File;
 use std::io::Write;
 use std::error::Error;
+use std::process;
 
 pub struct World{
     pub pop_host : Vec<Genotype>,
@@ -17,7 +18,11 @@ impl World{
         let mut new_hpop = Vec::new();
         let mut new_ppop = Vec::new();
         
-        let new_env = Environment::init(); // This environment doesn't have a complexity table!
+        let gpfilename = String::from("gptable.csv"); 
+        let new_env = Environment::init(cfg,&gpfilename).unwrap_or_else(|err|{
+                println!("Problem opening gptable file {} : {}",&gpfilename,err);
+                process::exit(1);
+            }); // This environment doesn't have complexity table (generated when run starts)
 
         for _ in 0..cfg.popsize_host{
             new_hpop.push(Genotype::new_rand(cfg));
