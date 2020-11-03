@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-if len(sys.argv)<2:
+if len(sys.argv)<5:
     print("Insufficient number of arguments.")
     print("Usage: python avg_cmplx_temporal.py <results_folder_path> <init_update> <final_update> <save_every>")
 
@@ -17,14 +17,21 @@ severy = int(sys.argv[4])
 
 
 ctable = {}
+cmplx_baseline = 0.0
+total_gtypes = 0
 
 with open(fpath+"/complexity_table.csv") as cfile:
     next(cfile)
     for line in cfile:
         words = line.split(",")
         ptype_id = int(words[0])
+        freq = int(words[1])
         complexity = float(words[2])
         ctable[ptype_id] = complexity
+        cmplx_baseline += complexity * freq
+        total_gtypes += freq
+
+cmplx_baseline /= total_gtypes
 
 print("Complexity table,")
 print(ctable)
@@ -53,6 +60,7 @@ for upd in upds:
 
 plt.plot(upds,h_cmp_t,label="Host")
 plt.plot(upds,p_cmp_t,label="Parasite")
+plt.axhline(y=cmplx_baseline,color='r',linestyle='--',label="baseline complexity")
 plt.xlabel("Time (updates)")
 plt.ylabel("Average population complexity")
 plt.legend()
