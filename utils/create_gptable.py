@@ -12,9 +12,9 @@ import numpy as np
 import copy
 
 # PARAMETERS
-gtype_len = 5 # Numbered 0 to 2^(gtype_len)-1
-num_ptypes = 4 # Numbered 0 to num_ptypes-1
-opt_type = 2 # Strongly ordered or minimally ordered (see above)
+gtype_len = 10 # Numbered 0 to 2^(gtype_len)-1
+num_ptypes = 10 # Numbered 0 to num_ptypes-1
+opt_type = 1 # Strongly ordered or minimally ordered (see above)
 
 # Simulated annealing parameters
 T_init = 1
@@ -160,6 +160,7 @@ def is_accepted(E_cur,E_new,T): # Acceptance probability
 gptable = [[] for i in range(num_ptypes)]
 
 # Add genotypes to gptable randomly
+print("Adding random genotypes to initial table...")
 for gid in range(2**gtype_len):
     gptable[random.randrange(num_ptypes)].append(gid)
 

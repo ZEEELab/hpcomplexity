@@ -22,7 +22,9 @@ pub struct Config {
     pub mut_para : f64, 
 
     pub max_steps : u32,
-    pub save_every : u32
+    pub save_every : u32,
+    pub contact_mode : u32,
+    pub contact_frac : f64
 }
 
 impl Config {
@@ -56,7 +58,9 @@ impl Config {
 
             // Run time
             max_steps: 1000,
-            save_every: 1
+            save_every: 1,
+            contact_mode: 0,
+            contact_frac: 0.05
         }
     }
 
@@ -86,6 +90,8 @@ impl Config {
                 "mut_para"      => {config.mut_para      = as_vec[1].parse::<f64>().unwrap()},
                 "max_steps"     => {config.max_steps     = as_vec[1].parse::<u32>().unwrap()},
                 "save_every"    => {config.save_every    = as_vec[1].parse::<u32>().unwrap()},    
+                "contact_mode"  => {config.contact_mode  = as_vec[1].parse::<u32>().unwrap()},
+                "contact_frac"  => {config.contact_frac  = as_vec[1].parse::<f64>().unwrap()},
                 _=>{},
             }
         }
@@ -113,14 +119,16 @@ impl Default for Config{
             mut_host: 0.00, 
             mut_para: 0.00, 
             max_steps: 0,
-            save_every: 0
+            save_every: 0,
+            contact_mode: 0,
+            contact_frac: 0.0
         }
     }
 }
 
 impl fmt::Display for Config{
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f,"{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
+        write!(f,"{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
             self.popsize_host,
             self.popsize_para,
             self.gen_len_max,
@@ -135,6 +143,9 @@ impl fmt::Display for Config{
             self.mut_host,
             self.mut_para,
             self.max_steps,
-            self.save_every)
+            self.save_every,
+            self.contact_mode,
+            self.contact_frac
+        )
     }
 }
