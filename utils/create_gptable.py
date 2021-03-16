@@ -12,9 +12,9 @@ import numpy as np
 import copy
 
 # PARAMETERS
-gtype_len = 10 # Numbered 0 to 2^(gtype_len)-1
-num_ptypes = 10 # Numbered 0 to num_ptypes-1
-opt_type = 1 # Strongly ordered or minimally ordered (see above)
+gtype_len = 5 # Numbered 0 to 2^(gtype_len)-1
+num_ptypes = 3 # Numbered 0 to num_ptypes-1
+opt_type = 2 # Strongly ordered or minimally ordered (see above)
 
 # Simulated annealing parameters
 T_init = 1
